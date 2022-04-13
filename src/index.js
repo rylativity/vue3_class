@@ -1,22 +1,48 @@
 import * as Vue from 'vue/dist/vue.esm-bundler.js'
 
-const app = Vue.createApp({
+const Num = {
+    props: ['number'],
     template: `
-    <button @click="increment">Increment</button>
-    <p> {{ count }} </p>
-
-    <div v-for="number in evenList">
-        {{ number }} 
-    </div>
-
-    <div v-if="isEven()"> Even</div>
-    <div v-else> Odd</div>
+    <button
+        v-bind:class="getClass(number)"
+        @click="click"
+    >
+        {{ number }}
+    </button>
+    `,
+    methods: {
+        click() {
+            this.$emit('chosen', this.number)
+        },
+        isEven(val) {
+            return val % 2 === 0
+        },
+        getClass(number) {
+            return this.isEven(number) ? 'blue': 'red'
+        }
+    }
+}
+const app = Vue.createApp({
+    components: {
+        Num
+    },
+    template: `
+    <num 
+        v-for="number in numbers"
+        :number="number"
+        v-on:chosen="addNumber"> 
+    </num>
+    <hr/>
+    <num 
+        v-for="number in numberHistory"
+        :number="number"> 
+    </num>
     `,
 
     data() {
         return {
-            count: 0,
-            numbers: [1,2,3,4,5,6,7,8,9,10]
+            numbers: [1,2,3,4,5,6,7,8,9,10],
+            numberHistory: []
         }
     },
 
@@ -26,11 +52,8 @@ const app = Vue.createApp({
         }
     },
     methods: {
-        increment() {
-            this.count += 1
-        },
-        isEven(val) {
-            return val % 2 === 0
+        addNumber(number) {
+            this.numberHistory.push(number)
         }
     }
 })
