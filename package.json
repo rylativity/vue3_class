@@ -12,5 +12,8 @@
   },
   "peerDependencies": {
     "@vue/compiler-sfc": "^3.0.7"
+  },
+  "scripts": {
+    "serve":"yarn vite --config vite.config.js"
   }
 }
