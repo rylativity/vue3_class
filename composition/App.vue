@@ -1,35 +1,20 @@
 <template>
-  <button @click="increment">{{ count }}</button>
-  <button @click="increase('a')">{{ numbers.a }}</button>
-  <button @click="increase('b')">{{ numbers.b }}</button>
+  <button @click="a++">{{ a }}</button>
+  <button @click="b++">{{ b }}</button>
+  <p>{{ total }}</p>
+  <div 
+    v-for="number in history"
+    :key="number"
+  >{{ number }}</div>
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
-
+// import { ref, reactive, computed, watch, watchEffect } from 'vue'
+import { useNumbers } from './useNumbers.js'
 export default {
   setup() {
-    const count = ref(0)
-    const numbers = reactive({
-      a:0,
-      b:0
-    })
-
-    const increase = (n) => {
-      numbers[n] ++
-    }
-
-    const increment = () => {
-      count.value ++
-    }
-
-    return {
-      count,
-      increase,
-      increment,
-      numbers
-    }
-
+    
+    return useNumbers()
   }
 }
 </script>
@@ -38,6 +23,9 @@ export default {
 button {
   height: 100px;
   width: 100px;
+  font-size: 40px;
+}
+p {
   font-size: 40px;
 }
 </style>
